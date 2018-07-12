@@ -1,0 +1,54 @@
+{
+  "name": "fs-website",
+  "version": "0.0.0",
+  "description": "http://friends.pf-n.co",
+  "main": "index.js",
+  "homepage": "http://friends.pf-n.co",
+  "author": {
+    "name": "Markus Tran",
+    "email": "thebluepillow@gmail.com",
+    "url": "http://pillowfication.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/friendship-squad/fs-website.git"
+  },
+  "bugs": {
+    "url": "https://github.com/friendship-squad/fs-website/issues"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --config webpack.prod.config.js",
+    "build:dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --config webpack.dev.config.js --progress --colors",
+    "test": "node_modules/standard/bin/cmd.js"
+  },
+  "dependencies": {
+    "compression": "^1.7.2",
+    "express": "^4.16.3",
+    "webpack": "^3.12.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "cross-env": "^5.2.0",
+    "css-loader": "^1.0.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "file-loader": "^1.1.11",
+    "foundation-sites": "^6.5.0-rc.2",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.9.2",
+    "normalize.css": "^8.0.0",
+    "pug": "^2.0.3",
+    "pug-loader": "^2.4.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-router-dom": "^4.3.1",
+    "sass-loader": "^7.0.3",
+    "standard": "^11.0.1",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack-cli": "^3.0.8"
+  },
+  "license": "MIT"
+}
