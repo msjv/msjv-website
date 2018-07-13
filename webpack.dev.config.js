@@ -79,6 +79,15 @@ module.exports = {
           name: 'images/[name].[ext]'
         }
       }]
+    }, {
+      test: /\.(ogg)$/,
+      use: [{
+        loader: 'url-loader',
+        options: {
+          limit: 8192,
+          name: 'misc/[name].[ext]'
+        }
+      }]
     }]
   },
   devtool: 'source-map',
