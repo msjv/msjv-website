@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import cn from 'classnames'
 
 import se6 from './SE6.ogg'
-import dadaluma from './dadaluma.png'
+import dadaluma from './DADABONGOfull.png'
 import styles from './SE6.scss'
 
 class App extends Component {
