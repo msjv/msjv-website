@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import cn from 'classnames'
 
-import se6 from './SE6.ogg'
-import dadaluma from './DADABONGOfull.png'
+import se6 from '../assets/SE6.ogg'
+import dadaluma from '../assets/DADABONGOfull.png'
 import styles from './SE6.scss'
 
 class App extends Component {
