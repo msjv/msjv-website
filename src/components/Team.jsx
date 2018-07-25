@@ -24,6 +24,7 @@ const DADALUMA_DIMENSIONS = {
   height: 112
 }
 const ANIMATION_DURATION = 2000
+const CASTING_DURATION = 1000
 const ARENA_PADDING = 80
 
 class Team extends Component {
@@ -31,6 +32,7 @@ class Team extends Component {
     super(props)
 
     this.state = {
+      casting: false,
       dadaluma: {
         x: 0,
         y: 0,
@@ -58,27 +60,35 @@ class Team extends Component {
   }
 
   revivePlayer () {
+    if (this.revivingPlayer) {
+      return
+    }
+
     const dead = FRIENDS.filter(friend => this.state[friend].dead)
     if (!dead.length) {
       return
     }
 
     const revive = dead[Math.random() * dead.length | 0]
-    const spawnPosition = this.getSpawnPosition()
-    this.setState({
-      [revive]: {
-        x: spawnPosition.x,
-        y: spawnPosition.y,
-        dead: false
-      }
-    })
+    this.setState({ casting: true })
 
-    setTimeout(this.killPlayer)
+    this.revivingPlayer = setTimeout(() => {
+      const spawnPosition = this.getSpawnPosition()
+      this.setState({
+        casting: false,
+        [revive]: {
+          x: spawnPosition.x,
+          y: spawnPosition.y,
+          dead: false
+        }
+      })
+      this.revivingPlayer = undefined
+      setTimeout(this.killPlayer)
+    }, CASTING_DURATION)
   }
 
   killPlayer () {
     if (this.killingPlayer) {
-      console.log('asdf')
       return
     }
 
@@ -128,15 +138,15 @@ class Team extends Component {
   }
 
   componentWillUnmount () {
+    if (this.revivingPlayer) {
+      clearTimeout(this.revivingPlayer)
+    }
     if (this.killingPlayer) {
       clearTimeout(this.killingPlayer)
     }
   }
 
   render () {
-    window.kill = this.killPlayer.bind(this)
-    window.spawn = this.revivePlayer.bind(this)
-
     return (
       <div className={styles.team}>
         {FRIENDS.map(friend => {
@@ -153,6 +163,11 @@ class Team extends Component {
           style={{ left: this.state.dadaluma.x + 'px', top: this.state.dadaluma.y + 'px' }}
         />
         <div className={styles.raise}>
+          <div className={cn(styles.castHud, { [styles.casting]: this.state.casting })}>
+            Raise
+            <div className={styles.progressBar} />
+          </div>
+          <br />
           <button className={zf.button} onClick={this.revivePlayer}>Raise</button>
         </div>
       </div>
