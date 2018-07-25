@@ -69,7 +69,8 @@ class Team extends Component {
       return
     }
 
-    const revive = dead[Math.random() * dead.length | 0]
+    const reviveIndex = Math.random() * dead.length | 0
+    const revive = dead[reviveIndex]
     this.setState({ casting: true })
 
     this.revivingPlayer = setTimeout(() => {
@@ -82,6 +83,7 @@ class Team extends Component {
           dead: false
         }
       })
+      FRIENDS.push(FRIENDS.splice(reviveIndex, 1)[0])
       this.revivingPlayer = undefined
       setTimeout(this.killPlayer)
     }, CASTING_DURATION)
