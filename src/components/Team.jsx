@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import cn from 'classnames'
 
-import zf from '../foundation.scss'
 import styles from './Team.scss'
 import dadaluma from '../assets/DADABONGOfull.png'
+import raise from '../assets/raise.png'
 
 const FRIENDS = [
   'PLD',
@@ -155,7 +155,7 @@ class Team extends Component {
           const friendState = this.state[friend]
           return (
             <div key={friend}
-              className={cn(styles.friend, { [styles.dead]: friendState.dead })}
+              className={cn(styles.friend, styles[friend], { [styles.dead]: friendState.dead })}
               style={{ left: friendState.x + 'px', top: friendState.y + 'px' }}
             />
           )
@@ -170,7 +170,7 @@ class Team extends Component {
             <div className={styles.progressBar} />
           </div>
           <br />
-          <button className={zf.button} onClick={this.revivePlayer}>Raise</button>
+          <img src={raise} onClick={this.revivePlayer} />
         </div>
       </div>
     )

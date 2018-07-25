@@ -18,8 +18,7 @@
   position: absolute;
   width: 50px;
   height: 50px;
-  border: 1px solid black;
-  background-color: #555555;
+  background-size: contain;
 
   &.dead {
     opacity: 0.5;
@@ -32,8 +31,14 @@
   right: 0px;
   bottom: 0px;
   width: 100%;
-  height: 150px;
+  height: 160px;
   text-align: center;
+
+  & > img {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+  }
 
   .cast-hud {
     display: inline-block;
@@ -69,3 +74,19 @@
     }
   }
 }
+
+.AST { background-image: url('../assets/AST.png'); }
+.BLM { background-image: url('../assets/BLM.png'); }
+.BRD { background-image: url('../assets/BRD.png'); }
+.DRG { background-image: url('../assets/DRG.png'); }
+.DRK { background-image: url('../assets/DRK.png'); }
+.MCH { background-image: url('../assets/MCH.png'); }
+.MNK { background-image: url('../assets/MNK.png'); }
+.NIN { background-image: url('../assets/NIN.png'); }
+.PLD { background-image: url('../assets/PLD.png'); }
+.RDM { background-image: url('../assets/RDM.png'); }
+.SAM { background-image: url('../assets/SAM.png'); }
+.SCH { background-image: url('../assets/SCH.png'); }
+.SMN { background-image: url('../assets/SMN.png'); }
+.WAR { background-image: url('../assets/WAR.png'); }
+.WHM { background-image: url('../assets/WHM.png'); }
