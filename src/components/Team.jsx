@@ -24,6 +24,7 @@ const DADALUMA_DIMENSIONS = {
   height: 112
 }
 const ANIMATION_DURATION = 2000
+const ARENA_PADDING = 80
 
 class Team extends Component {
   constructor (props) {
@@ -37,15 +38,23 @@ class Team extends Component {
       }
     }
     for (const friend of FRIENDS) {
+      const spawnPosition = this.getSpawnPosition()
       this.state[friend] = {
-        x: Math.random() * (window.innerWidth - ICON_DIMENSIONS.width),
-        y: Math.random() * (window.innerHeight - ICON_DIMENSIONS.height),
+        x: spawnPosition.x,
+        y: spawnPosition.y,
         dead: false
       }
     }
 
     this.revivePlayer = this.revivePlayer.bind(this)
     this.killPlayer = this.killPlayer.bind(this)
+  }
+
+  getSpawnPosition () {
+    return {
+      x: Math.random() * (window.innerWidth - ICON_DIMENSIONS.width - ARENA_PADDING * 2) + ARENA_PADDING,
+      y: Math.random() * (window.innerHeight - ICON_DIMENSIONS.height - ARENA_PADDING * 2) + ARENA_PADDING
+    }
   }
 
   revivePlayer () {
@@ -55,10 +64,11 @@ class Team extends Component {
     }
 
     const revive = dead[Math.random() * dead.length | 0]
+    const spawnPosition = this.getSpawnPosition()
     this.setState({
       [revive]: {
-        x: Math.random() * (window.innerWidth - ICON_DIMENSIONS.width),
-        y: Math.random() * (window.innerHeight - ICON_DIMENSIONS.height),
+        x: spawnPosition.x,
+        y: spawnPosition.y,
         dead: false
       }
     })
