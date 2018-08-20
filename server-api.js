@@ -37,7 +37,7 @@ router.get('/team', (_, response) => {
       const staticResults = Object.keys(STATIC)
         .reduce((acc, key) => {
           acc[key] = [ key ].concat(STATIC[key] || [])
-            .reduce((acc, name) => acc + results[name], 0)
+            .reduce((acc, name) => acc + results[name] || 0, 0)
           return acc
         }, {})
 
