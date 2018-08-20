@@ -2,14 +2,15 @@ const express = require('express')
 const fflogs = require('./fflogs')
 const router = express.Router()
 
-const STATIC = [
-  'Bees Knees',
-  'Cygne Eala',
-  'Kup-O Coffee',
-  'Lulu Pillow',
-  'Wunsucc Wahnquck',
-  'Zeno Mus'
-]
+const STATIC = {
+  'Bees Knees': null,
+  'Cygne Eala': null,
+  'Free Napkins': [ 'Anime Blows' ],
+  'Hat Kid': [ 'Zeno Mus' ],
+  'Kup-O Coffee': [ 'Kup-o Coffee' ],
+  'Lulu Pillow': null,
+  'Wunsucc Wahnquck': null
+}
 
 const cache = {}
 
@@ -32,10 +33,11 @@ router.get('/team', (_, response) => {
         }
       }
 
-      // TODO: This does not check for serverName and is not case-sensitive
-      const staticResults = STATIC
+      // TODO: This does not check for serverName
+      const staticResults = Object.keys(STATIC)
         .reduce((acc, key) => {
-          acc[key] = results[key]
+          acc[key] = [ key ].concat(STATIC[key] || [])
+            .reduce((acc, name) => acc + results[name], 0)
           return acc
         }, {})
 
