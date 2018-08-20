@@ -5,7 +5,7 @@ const router = express.Router()
 const STATIC = {
   'Bees Knees': null,
   'Cygne Eala': null,
-  'Free Napkins': [ 'Anime Blows' ],
+  'Free Napkins': [ 'Anime Sucks' ],
   'Hat Kid': [ 'Zeno Mus' ],
   'Kup-O Coffee': [ 'Kup-o Coffee' ],
   'Lulu Pillow': null,
@@ -37,7 +37,7 @@ router.get('/team', (_, response) => {
       const staticResults = Object.keys(STATIC)
         .reduce((acc, key) => {
           acc[key] = [ key ].concat(STATIC[key] || [])
-            .reduce((acc, name) => acc + results[name] || 0, 0)
+            .reduce((acc, name) => acc + (results[name] || 0), 0)
           return acc
         }, {})
 
