@@ -3,13 +3,16 @@ const fflogs = require('./fflogs')
 const router = express.Router()
 
 const STATIC = {
-  'Bees Knees': null,
-  'Cygne Eala': null,
+  // 'Bees Knees': null,
+  // 'Cygne Eala': null,
+  'Eira Ferox': null,
   'Free Napkins': [ 'Anime Sucks' ],
   'Hat Kid': [ 'Zeno Mus' ],
-  'Kup-O Coffee': [ 'Kup-o Coffee' ],
+  'Kup-o Coffee': [ 'Kup-O Coffee' ],
   'Lulu Pillow': null,
-  'Wunsucc Wahnquck': null
+  'Plumeria Dregen': null,
+  'Wunsucc Wahnquck': null,
+  'Yuudai Mori': null
 }
 
 const cache = {}
@@ -21,7 +24,7 @@ router.get('/team', (_, response) => {
 
   fflogs.getGuildReports('Friendship Squad', 'Adamantoise', 'NA')
     .then(reports => Promise.all(reports
-      .filter(report => report.zone === 21)
+      // .filter(report => report.zone === 21)
       .map(report => fflogs.getTablesReport('deaths', report.id, { start: 0, end: Number.MAX_SAFE_INTEGER })))
     )
     .then(reports => {
