@@ -19,7 +19,7 @@ const cache = {}
 
 router.get('/team', (_, response) => {
   if (cache.TEAM && cache.TEAM.timestamp > Date.now() - 86400000) {
-    return response.json(cache.TEAM.value)
+    return response.json(cache.TEAM.value, null, 2)
   }
 
   fflogs.getGuildReports('Friendship Squad', 'Adamantoise', 'NA')
@@ -49,7 +49,7 @@ router.get('/team', (_, response) => {
         timestamp: Date.now()
       }
 
-      response.json(cache.TEAM.value)
+      response.json(cache.TEAM.value, null, 2)
     })
 })
 
