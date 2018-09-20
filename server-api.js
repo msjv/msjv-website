@@ -17,9 +17,11 @@ const STATIC = {
 
 const cache = {}
 
+router.set('json spaces', 2)
+
 router.get('/team', (_, response) => {
   if (cache.TEAM && cache.TEAM.timestamp > Date.now() - 86400000) {
-    return response.json(cache.TEAM.value, null, 2)
+    return response.json(cache.TEAM.value)
   }
 
   fflogs.getGuildReports('Friendship Squad', 'Adamantoise', 'NA')
@@ -49,7 +51,7 @@ router.get('/team', (_, response) => {
         timestamp: Date.now()
       }
 
-      response.json(cache.TEAM.value, null, 2)
+      response.json(cache.TEAM.value)
     })
 })
 
