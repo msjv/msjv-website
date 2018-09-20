@@ -13,6 +13,8 @@ if (process.env.NODE_ENV === 'production') {
   app.use(compression({ level: 9 }))
 }
 
+app.set('json spaces', 2)
+
 app.use(favicon(path.resolve(__dirname, './src/favicon.ico')))
 app.use(express.static(path.resolve(__dirname, './dist')))
 

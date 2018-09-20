@@ -17,8 +17,6 @@ const STATIC = {
 
 const cache = {}
 
-router.set('json spaces', 2)
-
 router.get('/team', (_, response) => {
   if (cache.TEAM && cache.TEAM.timestamp > Date.now() - 86400000) {
     return response.json(cache.TEAM.value)
