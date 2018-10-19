@@ -3,16 +3,13 @@ const fflogs = require('./fflogs')
 const router = express.Router()
 
 const STATIC = {
-  // 'Bees Knees': null,
+  'Bees Knees': null,
   // 'Cygne Eala': null,
-  'Eira Ferox': null,
   'Free Napkins': [ 'Anime Sucks' ],
   'Hat Kid': [ 'Zeno Mus' ],
   'Kup-o Coffee': [ 'Kup-O Coffee' ],
   'Lulu Pillow': null,
-  'Plumeria Dregen': null,
-  'Wunsucc Wahnquck': null,
-  'Yuudai Mori': null
+  'Wunsucc Wahnquck': null
 }
 
 const cache = {}
