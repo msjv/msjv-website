@@ -22,20 +22,16 @@ router.get('/team', (_, response) => {
     return response.json(cache.TEAM.value)
   }
 
+  const allReports = fflogs.getGuildReports('Friendship Squad', 'Adamantoise', 'NA')
+  const deathReports = allReports.then(reports => Promise.all(reports.map(report => 
+    fflogs.getTablesReport('deaths', report.id, { start: 0, end: Number.MAX_SAFE_INTEGER }))))
+  const fightReports = allReports.then(reports => Promise.all(reports.map(report => 
+    fflogs.getFightsReport(report.id, {start:0, end: Number.MAX_SAFE_INTEGER}))))
 
-  fflogs.getGuildReports('Friendship Squad', 'Adamantoise', 'NA')
-    .then(reports =>
-        [Promise.all(reports.map(report => fflogs.getTablesReport('deaths', report.id, { start: 0, end: Number.MAX_SAFE_INTEGER }))),
-          Promise.all(reports.map(report => fflogs.getFightsReport(report.id, {start:0, end: Number.MAX_SAFE_INTEGER})))]
-
-    )
-    .then(reports => {
-      const reports1 = reports[0]
-      const reports2 = reports[1]
+  return Promise.all([deathReports, fightReports])
+    .then(([reports1, reports2]) => {
 
       console.log(reports1)
-      console.log(reports2)
-
       const deaths = {}
       for (const report of reports1) {
         for (const death of report.entries) {
