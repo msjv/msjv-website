@@ -5,10 +5,13 @@ const router = express.Router()
 const STATIC = {
   'Bees Knees': null,
   // 'Cygne Eala': null,
+  'Edwin Holmes': null,
   'Free Napkins': [ 'Anime Sucks' ],
   'Hat Kid': [ 'Zeno Mus' ],
-  'Kup-o Coffee': [ 'Kup-O Coffee' ],
+  // 'Kup-o Coffee': [ 'Kup-O Coffee' ],
   'Lulu Pillow': null,
+  'Soy Milk': null,
+  'Tiny Sama': null,
   'Wunsucc Wahnquck': null
 }
 
