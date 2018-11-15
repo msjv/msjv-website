@@ -50,7 +50,7 @@ router.get('/team', (_, response) => {
       for (const report of fightsReports) {
         const fightIdMap = {}
         for (const fight of report.fights) {
-          fightIdMap[fight.id] = fight.zoneId
+          fightIdMap[fight.id] = fight.zoneID
         }
         for (const player of report.friendlies) {
           const { name } = player
