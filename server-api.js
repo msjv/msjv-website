@@ -33,6 +33,9 @@ router.get('/team', (_, response) => {
       const reports1 = reports[0]
       const reports2 = reports[1]
 
+      console.log(reports1)
+      console.log(reports2)
+
       const deaths = {}
       for (const report of reports1) {
         for (const death of report.entries) {
@@ -51,7 +54,7 @@ router.get('/team', (_, response) => {
 
       const results = {}
       for (const name of deaths) {
-        deaths[name] = deaths[name] / fights[name]
+        results[name] = deaths[name] / fights[name]
       }
 
       // TODO: This does not check for serverName
