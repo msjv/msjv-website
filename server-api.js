@@ -22,18 +22,36 @@ router.get('/team', (_, response) => {
     return response.json(cache.TEAM.value)
   }
 
+
   fflogs.getGuildReports('Friendship Squad', 'Adamantoise', 'NA')
-    .then(reports => Promise.all(reports
-      // .filter(report => report.zone === 21)
-      .map(report => fflogs.getTablesReport('deaths', report.id, { start: 0, end: Number.MAX_SAFE_INTEGER })))
+    .then(reports =>
+        [Promise.all(reports.map(report => fflogs.getTablesReport('deaths', report.id, { start: 0, end: Number.MAX_SAFE_INTEGER }))),
+          Promise.all(reports.map(report => fflogs.getFightsReport(report.id, {start:0, end: Number.MAX_SAFE_INTEGER})))]
+
     )
     .then(reports => {
-      const results = {}
-      for (const report of reports) {
+      reports1 = reports[0]
+      reports2 = reports[1]
+
+      const deaths = {}
+      for (const report of reports1) {
         for (const death of report.entries) {
           const { name } = death
-          results[name] = (results[name] || 0) + 1
+          deaths[name] = (deaths[name] || 0) + 1
         }
+      }
+
+      const fights = {}
+      for (const report of reports2) {
+        for (const player of report.friendlies) {
+          const { name } = player
+          fights[name] = (fights[name] || 0) + player.fights.length
+        }
+      }
+
+      results = {}
+      for (const name of reports1) {
+        reports1[name] = reports1[name] / reports2[name]
       }
 
       // TODO: This does not check for serverName
