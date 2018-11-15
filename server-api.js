@@ -17,6 +17,10 @@ const STATIC = {
 
 const cache = {}
 
+function getFightsCount (report, player) {
+  const zoneIds = player.fights.map(fight => report.fights[fight.id - 1].zoneId)
+}
+
 router.get('/team', (_, response) => {
   if (cache.TEAM && cache.TEAM.timestamp > Date.now() - 86400000) {
     return response.json(cache.TEAM.value)
@@ -44,9 +48,16 @@ router.get('/team', (_, response) => {
 
       const fights = {}
       for (const report of fightsReports) {
+        const fightIdMap = {}
+        for (const fight of report.fights) {
+          fightIdMap[fight.id] = fight.zoneId
+        }
         for (const player of report.friendlies) {
           const { name } = player
-          fights[name] = (fights[name] || 0) + player.fights.length
+          fights[name] = (fights[name] || 0) +
+            player.fights.map(fight => fightIdMap[fight.id])
+              .filter(zoneId => zoneId === 802 || zoneId === 803) // Chaos and Midgardsormr (not sure where the IDs are documented)
+              .length
         }
       }
 
