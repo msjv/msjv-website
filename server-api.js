@@ -22,17 +22,20 @@ router.get('/team', (_, response) => {
     return response.json(cache.TEAM.value)
   }
 
-  const allReports = fflogs.getGuildReports('Friendship Squad', 'Adamantoise', 'NA')
-  const deathReports = allReports.then(reports => Promise.all(reports.map(report => 
-    fflogs.getTablesReport('deaths', report.id, { start: 0, end: Number.MAX_SAFE_INTEGER }))))
-  const fightReports = allReports.then(reports => Promise.all(reports.map(report => 
-    fflogs.getFightsReport(report.id, {start:0, end: Number.MAX_SAFE_INTEGER}))))
-
-  return Promise.all([deathReports, fightReports])
-    .then(([reports1, reports2]) => {
-
+  fflogs.getGuildReports('Friendship Squad', 'Adamantoise', 'NA')
+    .then(reports => {
+      reports = reports.filter(report => report.zone === 25) // Omega: Alphascape (Savage)
+      return Promise.all([
+        Promise.all(reports.map(report =>
+          fflogs.getTablesReport('deaths', report.id, { start: 0, end: Number.MAX_SAFE_INTEGER }))),
+        Promise.all(reports.map(report =>
+          fflogs.getFightsReport(report.id)
+        ))
+      ])
+    })
+    .then(([ deathsReports, fightsReports ]) => {
       const deaths = {}
-      for (const report of reports1) {
+      for (const report of deathsReports) {
         for (const death of report.entries) {
           const { name } = death
           deaths[name] = (deaths[name] || 0) + 1
@@ -40,7 +43,7 @@ router.get('/team', (_, response) => {
       }
 
       const fights = {}
-      for (const report of reports2) {
+      for (const report of fightsReports) {
         for (const player of report.friendlies) {
           const { name } = player
           fights[name] = (fights[name] || 0) + player.fights.length
@@ -48,32 +51,16 @@ router.get('/team', (_, response) => {
       }
 
       // TODO: This does not check for serverName
-      const staticDeaths = Object.keys(STATIC)
+      const staticResults = Object.keys(STATIC)
         .reduce((acc, key) => {
           acc[key] = [ key ].concat(STATIC[key] || [])
-            .reduce((acc, name) => acc + (deaths[name] || 0), 0)
+            .reduce((acc, name) => {
+              acc.deaths += deaths[name] || 0
+              acc.fights += fights[name] || 0
+              return acc
+            }, { deaths: 0, fights: 0 })
           return acc
         }, {})
-
-      const staticFights = Object.keys(STATIC)
-        .reduce((acc, key) => {
-          acc[key] = [ key ].concat(STATIC[key] || [])
-            .reduce((acc, name) => acc + (fights[name] || 0), 0)
-          return acc
-        }, {})
-
-      const staticResults = {}
-      for (const name in staticDeaths) {
-        if (deaths.hasOwnProperty(name)) {
-          staticResults[name] = staticDeaths[name] / staticFights[name]
-        }
-      }
-
-      for (const name in staticResults) {
-        if (staticResults.hasOwnProperty(name)) {
-          staticResults[name] = Number((staticResults[name]).toFixed(3))
-        }
-      }
 
       cache.TEAM = {
         value: staticResults,
