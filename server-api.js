@@ -30,8 +30,8 @@ router.get('/team', (_, response) => {
 
     )
     .then(reports => {
-      reports1 = reports[0]
-      reports2 = reports[1]
+      const reports1 = reports[0]
+      const reports2 = reports[1]
 
       const deaths = {}
       for (const report of reports1) {
@@ -49,7 +49,7 @@ router.get('/team', (_, response) => {
         }
       }
 
-      results = {}
+      const results = {}
       for (const name of deaths) {
         deaths[name] = deaths[name] / fights[name]
       }
