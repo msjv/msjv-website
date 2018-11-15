@@ -31,7 +31,6 @@ router.get('/team', (_, response) => {
   return Promise.all([deathReports, fightReports])
     .then(([reports1, reports2]) => {
 
-      console.log(reports1)
       const deaths = {}
       for (const report of reports1) {
         for (const death of report.entries) {
@@ -48,18 +47,33 @@ router.get('/team', (_, response) => {
         }
       }
 
-      const results = {}
-      for (const name of deaths) {
-        results[name] = deaths[name] / fights[name]
-      }
-
       // TODO: This does not check for serverName
-      const staticResults = Object.keys(STATIC)
+      const staticDeaths = Object.keys(STATIC)
         .reduce((acc, key) => {
           acc[key] = [ key ].concat(STATIC[key] || [])
-            .reduce((acc, name) => acc + (results[name] || 0), 0)
+            .reduce((acc, name) => acc + (deaths[name] || 0), 0)
           return acc
         }, {})
+
+      const staticFights = Object.keys(STATIC)
+        .reduce((acc, key) => {
+          acc[key] = [ key ].concat(STATIC[key] || [])
+            .reduce((acc, name) => acc + (fights[name] || 0), 0)
+          return acc
+        }, {})
+
+      const staticResults = {}
+      for (const name in staticDeaths) {
+        if (deaths.hasOwnProperty(name)) {
+          staticResults[name] = staticDeaths[name] / staticFights[name]
+        }
+      }
+
+      for (const name in staticResults) {
+        if (staticResults.hasOwnProperty(name)) {
+          staticResults[name] = Number((staticResults[name]).toFixed(3))
+        }
+      }
 
       cache.TEAM = {
         value: staticResults,
