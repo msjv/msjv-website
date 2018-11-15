@@ -50,8 +50,8 @@ router.get('/team', (_, response) => {
       }
 
       results = {}
-      for (const name of reports1) {
-        reports1[name] = reports1[name] / reports2[name]
+      for (const name of deaths) {
+        deaths[name] = deaths[name] / fights[name]
       }
 
       // TODO: This does not check for serverName
