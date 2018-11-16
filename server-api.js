@@ -17,10 +17,6 @@ const STATIC = {
 
 const cache = {}
 
-function getFightsCount (report, player) {
-  const zoneIds = player.fights.map(fight => report.fights[fight.id - 1].zoneId)
-}
-
 router.get('/team', (_, response) => {
   if (cache.TEAM && cache.TEAM.timestamp > Date.now() - 86400000) {
     return response.json(cache.TEAM.value)
