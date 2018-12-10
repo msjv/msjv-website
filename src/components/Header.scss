@@ -1,0 +1,12 @@
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 5rem;
+}
+
+.nav > ul {
+  justify-content: center; // Not sure why Foundation isn't doing this
+}

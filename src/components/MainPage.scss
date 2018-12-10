@@ -1,0 +1,52 @@
+.dp-table {
+  padding: 1rem;
+  font-size: 1.4rem;
+  background-color: rgb(255, 251, 194);
+
+  table, tbody, tr {
+    border: none !important;
+    background: none !important;
+  }
+}
+
+.raise-raise-raise {
+  width: 100%;
+  height: 100%;
+  background-image: url("../../assets/raiseraiseraise.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+}
+
+.shame-counter {
+  display: inline-block;
+  padding: 1rem 4rem;
+  background-color: red;
+  color: white;
+  font-size: 2rem;
+
+  em {
+    font-style: normal;
+    font-size: 3rem;
+  }
+}
+
+@mixin create-icon($job, $index) {
+  .icon-#{$job} {
+    width: 2rem;
+    height: 2rem;
+    background-image: url("../../assets/icons.png");
+    background-repeat: no-repeat;
+    background-position: $index * -2rem 0;
+    background-size: cover;
+  }
+}
+
+@include create-icon("DRK", 0)
+@include create-icon("PLD", 1)
+@include create-icon("SCH", 2)
+@include create-icon("WHM", 3)
+@include create-icon("DRG", 4)
+@include create-icon("SAM", 5)
+@include create-icon("SMN", 6)
+@include create-icon("BRD", 7)

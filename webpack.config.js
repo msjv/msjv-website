@@ -58,6 +58,15 @@ module.exports = {
           sourceMap: true
         }
       }]
+    }, {
+      test: /\.(gif|png|jpe?g|svg)$/,
+      use: [{
+        loader: 'url-loader',
+        options: {
+          limit: 8192,
+          name: 'images/[name].[ext]'
+        }
+      }]
     }]
   },
   devtool: 'source-map'
