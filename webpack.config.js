@@ -1,8 +1,10 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   mode: 'development',
+  watch: true,
   entry: {
     app: path.resolve(__dirname, './src/index.jsx')
   },
@@ -15,6 +17,10 @@ module.exports = {
       chunks: [ 'app' ],
       template: path.resolve(__dirname, './src/index.pug'),
       filename: 'index.html'
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
     })
   ],
   module: {
@@ -24,6 +30,7 @@ module.exports = {
       use: [{
         loader: 'babel-loader',
         options: {
+          cacheDirectory: path.resolve(__dirname, './.cache'),
           presets: [ '@babel/preset-env', '@babel/preset-react' ]
         }
       }]
@@ -32,6 +39,26 @@ module.exports = {
       use: [{
         loader: 'pug-loader'
       }]
+    }, {
+      test: /\.s?css$/,
+      use: [{
+        loader: MiniCssExtractPlugin.loader
+      }, {
+        loader: 'css-loader',
+        options: {
+          modules: true,
+          importLoaders: 2,
+          localIdentName: '[path][name]__[local]--[hash:base64:5]',
+          camelCase: 'dashesOnly',
+          sourceMap: true
+        }
+      }, {
+        loader: 'sass-loader',
+        options: {
+          sourceMap: true
+        }
+      }]
     }]
-  }
+  },
+  devtool: 'source-map'
 }
