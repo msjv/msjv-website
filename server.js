@@ -1,7 +1,7 @@
 const path = require('path')
 const express = require('express')
 
-const PORT = process.argv[2] || process.env.FS_PORT || 3000
+const PORT = process.argv[2] || process.env.CSG_PORT || 3000
 const ENTRY = path.resolve(__dirname, './dist/index.html')
 
 const app = express()
