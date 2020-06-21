@@ -4,4 +4,18 @@
 body {
   font-smooth: never;
   -webkit-font-smoothing: none;
+
+  @include breakpoint(large) {
+    font-size: 57px;
+  }
+  @include breakpoint(medium only) {
+    font-size: 46px;
+  }
+  @include breakpoint(small only) {
+    font-size: 31px;
+  }
+}
+
+hr {
+  border-bottom: 2px solid black;
 }
