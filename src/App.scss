@@ -1,5 +1,7 @@
+@import "./settings";
 @import "./foundation";
 
 body {
-  padding-bottom: 10rem;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
 }

@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-import Header from './components/Header.jsx'
-import MainPage from './components/MainPage.jsx'
+import Home from './components/Home.jsx'
+import _404 from './components/404.jsx'
 import './App.scss'
 
 class App extends Component {
   render () {
     return (
-      <React.Fragment>
-        <Header />
-        <main>
-          <MainPage />
-        </main>
-      </React.Fragment>
+      <Router>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route component={_404} />
+        </Switch>
+      </Router>
     )
   }
 }
 
-export default App
+ReactDOM.render(<App />, document.getElementById('app'))
