@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import lulu from '../assets/lulu.png'
+import lulu from './lulu.png'
 
 class LuluPillow extends Component {
   render () {
