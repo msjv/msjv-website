@@ -1,6 +1,10 @@
 @import "./settings";
 @import "./foundation";
 
+:global(#app) {
+  min-height: 100vh;
+}
+
 body {
   font-smooth: never;
   -webkit-font-smoothing: none;
@@ -14,6 +18,8 @@ body {
   @include breakpoint(small only) {
     font-size: 31px;
   }
+
+  background-color: gray;
 }
 
 hr {

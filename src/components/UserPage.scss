@@ -1,0 +1,7 @@
+.container {
+  composes: gridContainer from '../foundation.scss';
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 1em 1em 5em;
+  background-color: white;
+}
