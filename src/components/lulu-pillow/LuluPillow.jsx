@@ -6,7 +6,7 @@ class LuluPillow extends Component {
   render () {
     return (
       <>
-        <h1 style={{ fontSize: '1.2em' }}>Lulu Pillow</h1>
+        <h1>Lulu Pillow</h1>
         <div style={{ textAlign: 'center' }}>
           <img src={lulu} />
           <br />
