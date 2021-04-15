@@ -41,7 +41,8 @@ const useStyles = makeStyles(theme => ({
       listStyle: 'none',
       margin: theme.spacing(5),
       '& > li span': {
-        verticalAlign: 'middle'
+        verticalAlign: 'middle',
+        cursor: 'pointer'
       }
     }
   },
