@@ -82,11 +82,11 @@ const useStyles = makeStyles(() => ({
 }))
 
 interface marquee {
-  timeout: number,
-  timeoutId: NodeJS.Timeout,
-  text: string,
-  position: number,
-  size: number,
+  timeout: number
+  timeoutId: NodeJS.Timeout
+  text: string
+  position: number
+  size: number
   style: string
 }
 
@@ -94,7 +94,7 @@ const Index = (): React.ReactElement => {
   const classes = useStyles()
   const [marquees, setMarquees] = useState<marquee[]>([])
 
-  const spawnMarquee = () => {
+  const spawnMarquee = (): void => {
     const timeout = range(4000, 20000)
     const timeoutId = setTimeout(() => {
       deleteMarquee(timeoutId)
@@ -112,7 +112,7 @@ const Index = (): React.ReactElement => {
     setMarquees(marquees.slice())
   }
 
-  const deleteMarquee = (timeoutId: NodeJS.Timeout) => {
+  const deleteMarquee = (timeoutId: NodeJS.Timeout): void => {
     for (let i = 0; i < marquees.length; ++i) {
       if (marquees[i].timeoutId === timeoutId) {
         marquees.splice(i, 1)
