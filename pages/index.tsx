@@ -1,154 +1,155 @@
-import React from 'react'
-import clsx from 'clsx'
-import { makeStyles } from '@material-ui/core/styles'
-import Link from 'next/link'
-import Typography from '@material-ui/core/Typography'
+import React, { useEffect, useState } from 'react'
+import { makeStyles } from '@material-ui/styles'
 
-const useStyles = makeStyles(theme => ({
+function range (min: number, max: number): number {
+  return min + (max - min) * Math.random()
+}
+
+const MARQUEE_TEXT = [
+  'DOG WALKERS',
+  'DOG WALKERS',
+  'DOG WALKERS',
+  'DOG WALKERS',
+  'DOG WALKERS',
+  'DOG WALKERS',
+  'DOG WALKERS',
+  'DOG WALKERS',
+  'DOG WALKERS',
+  'DOG WALKERS',
+  'BEES KNEES',
+  'ELLIOT SINCLAIR',
+  'FREE NAPKINS',
+  'LINOS MELENDI',
+  'LULU PILLOW',
+  'RAIN CORWELL',
+  'TINY SAMA',
+  'WUNSUCC WAHNCUCK',
+  'U・ﻌ・U┬─┬ﾉ~'
+]
+
+const MARQUEE_STYLES = [
+  'rainbow 1.79s linear 0s infinite'
+]
+
+const useStyles = makeStyles(() => ({
   splash: {
-    display: 'flex',
+    position: 'relative',
     width: '100vw',
     height: '100vh',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    padding: theme.spacing(2),
-
-    '& > div': {
-      padding: theme.spacing(5, 5, 2),
-      borderRadius: '1em',
-      backgroundColor: 'white',
-      boxShadow: Array(5).fill('0 0 1em white').join(', ')
-    }
+    backgroundImage: 'url(\'https://media.discordapp.net/attachments/461357919628296196/894838119684268052/dogwalkers.png\')',
+    backgroundColor: 'black',
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: '50% 50%',
+    overflow: 'hidden',
+    fontSize: '1rem'
   },
-
-  roster: {
-    width: 800,
-    maxWidth: '100%',
-    margin: theme.spacing(5, 'auto', 10),
-    border: '20px solid transparent',
-    borderImage: 'url("/images/border.png") 20 round',
-    padding: theme.spacing(5),
-    backgroundColor: 'white',
-
-    '& h1': {
-      fontSize: '1.2em',
-      lineHeight: 1,
-      textAlign: 'center'
+  marquee: {
+    position: 'absolute',
+    top: '100px',
+    width: '100%',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: 'white'
+  },
+  '@global': {
+    '@keyframes marquee': {
+      '0%': {
+        left: '100%'
+      },
+      '100%': {
+        left: '-100%'
+      }
     },
-
-    '& ul': {
-      listStyle: 'none',
-      margin: theme.spacing(5),
-      '& > li span': {
-        verticalAlign: 'middle',
-        cursor: 'pointer'
+    '@keyframes rainbow': {
+      '0%': {
+        color: '#6666ff'
+      },
+      '10%': {
+        color: '#0099ff'
+      },
+      '50%': {
+        color: '#00ff00'
+      },
+      '75%': {
+        color: '#ff3399'
+      },
+      '100%': {
+        color: '#6666ff'
       }
     }
-  },
-
-  jobIcon: {
-    display: 'inline-block',
-    width: '1em',
-    height: '1em',
-    position: 'relative',
-    top: '0.1em',
-    backgroundImage: 'url("/images/jobs.png")',
-    backgroundSize: 'cover',
-    imageRendering: 'pixelated',
-    marginRight: '0.5em'
-  },
-
-  DRK: { backgroundPosition: '0 0' },
-  GNB: { backgroundPosition: '0 -1em' },
-  AST: { backgroundPosition: '0 -2em' },
-  SCH: { backgroundPosition: '0 -3em' },
-  DRG: { backgroundPosition: '0 -4em' },
-  NIN: { backgroundPosition: '0 -5em' },
-  DNC: { backgroundPosition: '0 -6em' },
-  SMN: { backgroundPosition: '0 -7em' }
+  }
 }))
+
+interface marquee {
+  timeout: number,
+  timeoutId: NodeJS.Timeout,
+  text: string,
+  position: number,
+  size: number,
+  style: string
+}
 
 const Index = (): React.ReactElement => {
   const classes = useStyles()
+  const [marquees, setMarquees] = useState<marquee[]>([])
+
+  const spawnMarquee = () => {
+    const timeout = range(4000, 20000)
+    const timeoutId = setTimeout(() => {
+      deleteMarquee(timeoutId)
+    }, timeout)
+
+    const marquee = {
+      timeout,
+      timeoutId,
+      text: MARQUEE_TEXT[Math.floor(MARQUEE_TEXT.length * Math.random())],
+      position: range(2, 45),
+      size: range(2, 8),
+      style: MARQUEE_STYLES[Math.floor(MARQUEE_STYLES.length * Math.random())]
+    }
+    marquees.push(marquee)
+    setMarquees(marquees.slice())
+  }
+
+  const deleteMarquee = (timeoutId: NodeJS.Timeout) => {
+    for (let i = 0; i < marquees.length; ++i) {
+      if (marquees[i].timeoutId === timeoutId) {
+        marquees.splice(i, 1)
+        setMarquees(marquees.slice())
+      }
+    }
+  }
+
+  useEffect(() => {
+    const spawner = setInterval(() => {
+      spawnMarquee()
+    }, 1000)
+
+    return () => {
+      clearInterval(spawner)
+      for (const marquee of marquees) {
+        clearTimeout(marquee.timeoutId)
+      }
+    }
+  }, [])
 
   return (
     <>
       <div className={classes.splash}>
-        <div>
-          <img src='/images/msjv.png' />
-          <Typography>“Tackling life one braincell at a time”</Typography>
-        </div>
-      </div>
-      <div className={classes.roster}>
-        <h1>~ THE STATIC ~</h1>
-        <hr />
-        <ul>
-          <li>
-            <Link href='/rain-corwell'>
-              <span>
-                <div className={clsx(classes.jobIcon, classes.DRK)} />
-                Rain Corwell
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link href='/anysy-cinysay'>
-              <span>
-                <div className={clsx(classes.jobIcon, classes.GNB)} />
-                Anysy Cinysay
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link href='/linos-melendi'>
-              <span>
-                <div className={clsx(classes.jobIcon, classes.AST)} />
-                Linos Melendi
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link href='/free-napkins'>
-              <span>
-                <div className={clsx(classes.jobIcon, classes.SCH)} />
-                Free Napkins
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link href='/tiny-sama'>
-              <span>
-                <div className={clsx(classes.jobIcon, classes.DRG)} />
-                Tiny Sama
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link href='/lulu-pillow'>
-              <span>
-                <div className={clsx(classes.jobIcon, classes.NIN)} />
-                Lulu Pillow
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link href='/jessika-eno'>
-              <span>
-                <div className={clsx(classes.jobIcon, classes.DNC)} />
-                Jessika Eno
-              </span>
-            </Link>
-          </li>
-          <li>
-            <Link href='/wunsucc-wahnquck'>
-              <span>
-                <div className={clsx(classes.jobIcon, classes.SMN)} />
-                Wunsucc Wahnquck
-              </span>
-            </Link>
-          </li>
-        </ul>
+        {marquees.map(marquee =>
+          <div
+            key={Number(marquee.timeoutId)}
+            className={classes.marquee}
+            style={{
+              animation: `marquee ${marquee.timeout / 1000}s linear, ${marquee.style}`,
+              top: `${marquee.position}%`,
+              fontSize: `${marquee.size}em`
+            }}
+          >
+            {marquee.text}
+          </div>
+        )}
       </div>
     </>
   )
