@@ -5,7 +5,11 @@ function range (min: number, max: number): number {
   return min + (max - min) * Math.random()
 }
 
-const MARQUEE_TEXT = [
+function pick<T> (array: T[]): T {
+  return array[Math.floor(array.length * Math.random())]
+}
+
+const MARQUEE_TEXTS = [
   'DOG WALKERS',
   'DOG WALKERS',
   'DOG WALKERS',
@@ -23,12 +27,29 @@ const MARQUEE_TEXT = [
   'LULU PILLOW',
   'RAIN CORWELL',
   'TINY SAMA',
-  'WUNSUCC WAHNCUCK',
+  'WUNSUCC WAHNQUCK',
   'U・ﻌ・U┬─┬ﾉ~'
 ]
 
+const MARQUEE_FONTS = [
+  'Arial, sans-serif',
+  'Verdana, sans-serif',
+  'Helvetica, sans-serif',
+  'Tahoma, sans-serif',
+  '"Trebuchet MS", sans-serif',
+  '"Times New Roman", serif',
+  'Georgia, serif',
+  'Garamond, serif',
+  '"Courier New", monospace'
+]
+
 const MARQUEE_STYLES = [
-  'rainbow 1.79s linear 0s infinite'
+  'glow1 3s linear infinite',
+  'glow2 3s linear infinite',
+  'glow3 3s linear infinite',
+  'flash1 0.45s steps(1, end) infinite',
+  'flash2 0.45s steps(1, end) infinite',
+  'flash3 0.45s steps(1, end) infinite'
 ]
 
 const useStyles = makeStyles(() => ({
@@ -46,37 +67,46 @@ const useStyles = makeStyles(() => ({
   },
   marquee: {
     position: 'absolute',
-    top: '100px',
-    width: '100%',
-    textAlign: 'center',
     fontWeight: 'bold',
-    color: 'white'
+    color: 'white',
+    whiteSpace: 'nowrap'
   },
   '@global': {
     '@keyframes marquee': {
-      '0%': {
-        left: '100%'
-      },
-      '100%': {
-        left: '-100%'
-      }
+      '0%': { left: '100%' },
+      '100%': { left: '-10000px' }
     },
-    '@keyframes rainbow': {
-      '0%': {
-        color: '#6666ff'
-      },
-      '10%': {
-        color: '#0099ff'
-      },
-      '50%': {
-        color: '#00ff00'
-      },
-      '75%': {
-        color: '#ff3399'
-      },
-      '100%': {
-        color: '#6666ff'
-      }
+    '@keyframes flash1': {
+      '0%': { color: '#FF0000' },
+      '50%': { color: '#FFFF00' }
+    },
+    '@keyframes flash2': {
+      '0%': { color: '#0000FF' },
+      '50%': { color: '#00FFFF' }
+    },
+    '@keyframes flash3': {
+      '0%': { color: '#00B000' },
+      '50%': { color: '#80FF80' }
+    },
+    '@keyframes glow1': {
+      '0%': { color: '#FF0000' },
+      '33%': { color: '#00B000' },
+      '66%': { color: '#0000FF' },
+      '100%': { color: '#FF0000' }
+    },
+    '@keyframes glow2': {
+      '0%': { color: '#FF0000' },
+      '33%': { color: '#800080' },
+      '66%': { color: '#0000FF' },
+      '100%': { color: '#FF0000' }
+    },
+    '@keyframes glow3': {
+      '0%': { color: '#FFFFFF' },
+      '25%': { color: '#00B000' },
+      '50%': { color: '#FFFFFF' },
+      '67.5%': { color: '#00FFFF' },
+      '75%': { color: '#0000FF' },
+      '100%': { color: '#FFFFFF' }
     }
   }
 }))
@@ -88,6 +118,7 @@ interface marquee {
   position: number
   size: number
   style: string
+  font: string
 }
 
 const Index = (): React.ReactElement => {
@@ -95,18 +126,19 @@ const Index = (): React.ReactElement => {
   const [marquees, setMarquees] = useState<marquee[]>([])
 
   const spawnMarquee = (): void => {
-    const timeout = range(4000, 20000)
+    const timeout = range(10000, 50000)
     const timeoutId = setTimeout(() => {
       deleteMarquee(timeoutId)
-    }, timeout)
+    }, timeout - 100)
 
     const marquee = {
       timeout,
       timeoutId,
-      text: MARQUEE_TEXT[Math.floor(MARQUEE_TEXT.length * Math.random())],
+      text: pick(MARQUEE_TEXTS),
       position: range(2, 45),
       size: range(2, 8),
-      style: MARQUEE_STYLES[Math.floor(MARQUEE_STYLES.length * Math.random())]
+      style: pick(MARQUEE_STYLES),
+      font: pick(MARQUEE_FONTS)
     }
     marquees.push(marquee)
     setMarquees(marquees.slice())
@@ -124,7 +156,7 @@ const Index = (): React.ReactElement => {
   useEffect(() => {
     const spawner = setInterval(() => {
       spawnMarquee()
-    }, 1000)
+    }, 977)
 
     return () => {
       clearInterval(spawner)
@@ -144,6 +176,7 @@ const Index = (): React.ReactElement => {
             style={{
               animation: `marquee ${marquee.timeout / 1000}s linear, ${marquee.style}`,
               top: `${marquee.position}%`,
+              fontFamily: marquee.font,
               fontSize: `${marquee.size}em`
             }}
           >
