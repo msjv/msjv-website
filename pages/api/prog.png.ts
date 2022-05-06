@@ -8,6 +8,7 @@ export default async function handler (_: any, res: NextApiResponse): Promise<vo
   await page.waitForSelector('.guild-progress-tile-embed')
   const element = await page.$('.guild-progress-tile-embed')
   const buffer = await element!.screenshot({ omitBackground: true }) // eslint-disable-line @typescript-eslint/no-non-null-assertion
+  void browser.close()
 
   res.writeHead(200, {
     'Content-Type': 'image/png',
