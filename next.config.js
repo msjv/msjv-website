@@ -12,5 +12,14 @@ module.exports = {
     })
 
     return config
+  },
+
+  async rewrites () {
+    return [
+      {
+        source: '/prog.png',
+        destination: '/api/prog.png'
+      }
+    ]
   }
 }
