@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import puppeteer from 'puppeteer'
 import LRU from 'lru-cache'
+import WEENY_COOKIE from '../../WEENY_COOKIE.json'
 
 const MSJV = '38446'
 const cache = new LRU({
@@ -56,6 +57,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       ]
     })
     const page = await browser.newPage()
+    await page.setExtraHTTPHeaders({ cookie: WEENY_COOKIE })
     await page.goto(widgetUrl, { waitUntil: 'networkidle2' })
     await page.waitForSelector('.guild-progress-tile-embed')
     const element = await page.$('.guild-progress-tile-embed')
