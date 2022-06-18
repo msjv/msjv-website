@@ -146,7 +146,6 @@ const Index = (): React.ReactElement => {
       }
     }
   }, [])
-  console.log(marquees)
 
   return (
     <Box sx={{
